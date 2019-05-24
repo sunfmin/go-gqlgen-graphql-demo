@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -38,6 +39,12 @@ var storeTodos = []*api.Todo{
 		Done:   false,
 		UserID: "2",
 	},
+	{
+		ID:     uuid.New().String(),
+		Text:   "learn graphql in Go",
+		Done:   false,
+		UserID: "2",
+	},
 }
 
 var storeUsers = []*api.User{
@@ -66,9 +73,17 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input api.NewTodo) (*
 
 type queryResolver struct{ *Resolver }
 
-func (r *queryResolver) Todos(ctx context.Context) ([]*api.Todo, error) {
+func (r *queryResolver) Todos(ctx context.Context, text *string) (todos []*api.Todo, err error) {
 	fmt.Println("Calling Todos resolver")
-	return storeTodos, nil
+	if text == nil {
+		return storeTodos, nil
+	}
+	for _, t := range storeTodos {
+		if strings.Index(strings.ToLower(t.Text), strings.ToLower(*text)) >= 0 {
+			todos = append(todos, t)
+		}
+	}
+	return
 }
 
 type todoResolver struct{ *Resolver }

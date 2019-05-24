@@ -49,7 +49,7 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Todos func(childComplexity int) int
+		Todos func(childComplexity int, text *string) int
 	}
 
 	Todo struct {
@@ -69,7 +69,7 @@ type MutationResolver interface {
 	CreateTodo(ctx context.Context, input api.NewTodo) (*api.Todo, error)
 }
 type QueryResolver interface {
-	Todos(ctx context.Context) ([]*api.Todo, error)
+	Todos(ctx context.Context, text *string) ([]*api.Todo, error)
 }
 type TodoResolver interface {
 	User(ctx context.Context, obj *api.Todo) (*api.User, error)
@@ -107,7 +107,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			break
 		}
 
-		return e.complexity.Query.Todos(childComplexity), true
+		args, err := ec.field_Query_todos_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.Todos(childComplexity, args["text"].(*string)), true
 
 	case "Todo.done":
 		if e.complexity.Todo.Done == nil {
@@ -245,7 +250,7 @@ type User {
 }
 
 type Query {
-  todos: [Todo!]!
+  todos(text: String): [Todo!]!
 }
 
 input NewTodo {
@@ -288,6 +293,20 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 		}
 	}
 	args["name"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_todos_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *string
+	if tmp, ok := rawArgs["text"]; ok {
+		arg0, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["text"] = arg0
 	return args, nil
 }
 
@@ -367,10 +386,17 @@ func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.Coll
 		IsMethod: true,
 	}
 	ctx = graphql.WithResolverContext(ctx, rctx)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Query_todos_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	rctx.Args = args
 	ctx = ec.Tracer.StartFieldResolverExecution(ctx, rctx)
 	resTmp := ec.FieldMiddleware(ctx, nil, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().Todos(rctx)
+		return ec.resolvers.Query().Todos(rctx, args["text"].(*string))
 	})
 	if resTmp == nil {
 		if !ec.HasError(rctx) {

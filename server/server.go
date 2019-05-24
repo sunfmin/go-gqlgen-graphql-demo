@@ -17,8 +17,10 @@ func main() {
 		port = defaultPort
 	}
 
+	g := handler.GraphQL(graphqldemo.NewExecutableSchema(graphqldemo.Config{Resolvers: &graphqldemo.Resolver{}}))
+
 	http.Handle("/", handler.Playground("GraphQL playground", "/query"))
-	http.Handle("/query", handler.GraphQL(graphqldemo.NewExecutableSchema(graphqldemo.Config{Resolvers: &graphqldemo.Resolver{}})))
+	http.Handle("/query", graphqldemo.UserLoaderMiddleware(g))
 
 	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))

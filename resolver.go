@@ -3,6 +3,8 @@ package graphqldemo
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"time"
 
 	"github.com/google/uuid"
 
@@ -25,14 +27,27 @@ func (r *Resolver) Todo() TodoResolver {
 
 var storeTodos = []*api.Todo{
 	{
-		ID:   uuid.New().String(),
-		Text: "learn go",
-		Done: true,
+		ID:     uuid.New().String(),
+		Text:   "learn go",
+		Done:   true,
+		UserID: "1",
 	},
 	{
-		ID:   uuid.New().String(),
-		Text: "learn graphql",
-		Done: false,
+		ID:     uuid.New().String(),
+		Text:   "learn graphql",
+		Done:   false,
+		UserID: "2",
+	},
+}
+
+var storeUsers = []*api.User{
+	{
+		ID:   "1",
+		Name: "john",
+	},
+	{
+		ID:   "2",
+		Name: "felix",
 	},
 }
 
@@ -59,9 +74,30 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*api.Todo, error) {
 type todoResolver struct{ *Resolver }
 
 func (r *todoResolver) User(ctx context.Context, obj *api.Todo) (*api.User, error) {
-	fmt.Println("Calling User resolver", obj)
-	return &api.User{
-		ID:   "123",
-		Name: "Felix",
-	}, nil
+	return ctx.Value(userLoaderKey).(*UserLoader).Load(obj.UserID)
+}
+
+const userLoaderKey = "userloader"
+
+func UserLoaderMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		userloader := NewUserLoader(UserLoaderConfig{
+			MaxBatch: 100,
+			Wait:     1 * time.Millisecond,
+			Fetch: func(ids []string) (users []*api.User, errs []error) {
+				fmt.Println("UserLoader Fetch", ids)
+				for _, id := range ids {
+					for _, u := range storeUsers {
+						if u.ID == id {
+							users = append(users, u)
+						}
+					}
+				}
+				return
+			},
+		})
+		ctx := context.WithValue(r.Context(), userLoaderKey, userloader)
+		r = r.WithContext(ctx)
+		next.ServeHTTP(w, r)
+	})
 }

@@ -6,7 +6,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"github.com/sunfmin/graphqldemo/api"
+	"github.com/sunfmin/go-gqlgen-graphql-demo/api"
 )
 
 // THIS CODE IS A STARTING POINT ONLY. IT WILL NOT BE UPDATED WITH SCHEMA CHANGES.

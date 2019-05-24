@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/99designs/gqlgen/handler"
-	"github.com/sunfmin/graphqldemo"
+	graphqldemo "github.com/sunfmin/go-gqlgen-graphql-demo"
 )
 
 const defaultPort = "8080"

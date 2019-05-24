@@ -12,7 +12,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
-	"github.com/sunfmin/graphqldemo/api"
+	"github.com/sunfmin/go-gqlgen-graphql-demo/api"
 	"github.com/vektah/gqlparser"
 	"github.com/vektah/gqlparser/ast"
 )
@@ -268,7 +268,7 @@ func (ec *executionContext) field_Mutation_createTodo_args(ctx context.Context, 
 	args := map[string]interface{}{}
 	var arg0 api.NewTodo
 	if tmp, ok := rawArgs["input"]; ok {
-		arg0, err = ec.unmarshalNNewTodo2githubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐNewTodo(ctx, tmp)
+		arg0, err = ec.unmarshalNNewTodo2githubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐNewTodo(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -354,7 +354,7 @@ func (ec *executionContext) _Mutation_createTodo(ctx context.Context, field grap
 	res := resTmp.(*api.Todo)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalNTodo2ᚖgithubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐTodo(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚖgithubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐTodo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
@@ -381,7 +381,7 @@ func (ec *executionContext) _Query_todos(ctx context.Context, field graphql.Coll
 	res := resTmp.([]*api.Todo)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐTodo(ctx, field.Selections, res)
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐTodo(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) graphql.Marshaler {
@@ -544,7 +544,7 @@ func (ec *executionContext) _Todo_user(ctx context.Context, field graphql.Collec
 	res := resTmp.(*api.User)
 	rctx.Result = res
 	ctx = ec.Tracer.StartFieldChildExecution(ctx)
-	return ec.marshalNUser2ᚖgithubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐUser(ctx, field.Selections, res)
+	return ec.marshalNUser2ᚖgithubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _User_id(ctx context.Context, field graphql.CollectedField, obj *api.User) graphql.Marshaler {
@@ -1895,7 +1895,7 @@ func (ec *executionContext) marshalNID2string(ctx context.Context, sel ast.Selec
 	return res
 }
 
-func (ec *executionContext) unmarshalNNewTodo2githubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐNewTodo(ctx context.Context, v interface{}) (api.NewTodo, error) {
+func (ec *executionContext) unmarshalNNewTodo2githubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐNewTodo(ctx context.Context, v interface{}) (api.NewTodo, error) {
 	return ec.unmarshalInputNewTodo(ctx, v)
 }
 
@@ -1913,11 +1913,11 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 	return res
 }
 
-func (ec *executionContext) marshalNTodo2githubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐTodo(ctx context.Context, sel ast.SelectionSet, v api.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2githubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐTodo(ctx context.Context, sel ast.SelectionSet, v api.Todo) graphql.Marshaler {
 	return ec._Todo(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐTodo(ctx context.Context, sel ast.SelectionSet, v []*api.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐTodo(ctx context.Context, sel ast.SelectionSet, v []*api.Todo) graphql.Marshaler {
 	ret := make(graphql.Array, len(v))
 	var wg sync.WaitGroup
 	isLen1 := len(v) == 1
@@ -1941,7 +1941,7 @@ func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋsunfminᚋgraphqld
 			if !isLen1 {
 				defer wg.Done()
 			}
-			ret[i] = ec.marshalNTodo2ᚖgithubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐTodo(ctx, sel, v[i])
+			ret[i] = ec.marshalNTodo2ᚖgithubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐTodo(ctx, sel, v[i])
 		}
 		if isLen1 {
 			f(i)
@@ -1954,7 +1954,7 @@ func (ec *executionContext) marshalNTodo2ᚕᚖgithubᚗcomᚋsunfminᚋgraphqld
 	return ret
 }
 
-func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐTodo(ctx context.Context, sel ast.SelectionSet, v *api.Todo) graphql.Marshaler {
+func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐTodo(ctx context.Context, sel ast.SelectionSet, v *api.Todo) graphql.Marshaler {
 	if v == nil {
 		if !ec.HasError(graphql.GetResolverContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
@@ -1964,11 +1964,11 @@ func (ec *executionContext) marshalNTodo2ᚖgithubᚗcomᚋsunfminᚋgraphqldemo
 	return ec._Todo(ctx, sel, v)
 }
 
-func (ec *executionContext) marshalNUser2githubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐUser(ctx context.Context, sel ast.SelectionSet, v api.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2githubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐUser(ctx context.Context, sel ast.SelectionSet, v api.User) graphql.Marshaler {
 	return ec._User(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋsunfminᚋgraphqldemoᚋapiᚐUser(ctx context.Context, sel ast.SelectionSet, v *api.User) graphql.Marshaler {
+func (ec *executionContext) marshalNUser2ᚖgithubᚗcomᚋsunfminᚋgoᚑgqlgenᚑgraphqlᚑdemoᚋapiᚐUser(ctx context.Context, sel ast.SelectionSet, v *api.User) graphql.Marshaler {
 	if v == nil {
 		if !ec.HasError(graphql.GetResolverContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")

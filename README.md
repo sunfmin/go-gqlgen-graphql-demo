@@ -58,14 +58,14 @@ type Todo struct {
 ```
 
 gqlgen.yml
-```
+```yaml
 ...
 models:
   Todo:
-    model: github.com/sunfmin/graphqldemo/api.Todo
+    model: github.com/sunfmin/go-gqlgen-graphql-demo/api.Todo
 ```
 
-Note that I removed `user: User!` field compare to `schema.graphql` definition. specify the model in `gqlgen.yml` file, Then gqlgen will generate the User field as an resolver. means left your to implement this func:
+Note that I removed `user: User!` field compare to `schema.graphql` definition. specify the model in `gqlgen.yml` file, Then gqlgen will generate the User field as an resolver. means left you to implement this func in a different Todo resolver, Not in queryResolver anymore:
 
 ```go
 func (r *todoResolver) User(ctx context.Context, obj *api.Todo) (*api.User, error) {
